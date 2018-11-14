@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using ApiTesteDotNet.Model;
+using DotNetCoreEF.Model;
 
-namespace ApiTesteDotNet.Business
+namespace DotNetCoreEF.Business
 {
     public interface IPersonBusiness
     {

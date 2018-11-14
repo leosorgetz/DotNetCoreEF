@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ApiTesteDotNet.Business;
-using ApiTesteDotNet.Business.Implementation;
-using ApiTesteDotNet.Model.Context;
-using ApiTesteDotNet.Repository;
-using ApiTesteDotNet.Repository.Implementation;
+using DotNetCoreEF.Business;
+using DotNetCoreEF.Business.Implementation;
+using DotNetCoreEF.Model.Context;
+using DotNetCoreEF.Repository;
+using DotNetCoreEF.Repository.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -17,7 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace ApiTesteDotNet
+namespace DotNetCoreEF
 {
     public class Startup
     {
@@ -34,8 +34,10 @@ namespace ApiTesteDotNet
             var connectionString = _configuration["MySqlConnection:MySqlConnectionString"];
             services.AddDbContext<MySqlContext>(options => options.UseMySql(connectionString));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
             services.AddScoped<IPersonBusiness, PersonBusinessImpl>();
-            services.AddScoped<IPersonRepository, PersonRepositoryImpl>();
+            services.AddScoped<IBookBusiness, BookBusinessImpl>();
+            services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
             services.AddApiVersioning();
         }
 

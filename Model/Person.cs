@@ -1,14 +1,14 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using DotNetCoreEF.Model.Base;
 
-namespace ApiTesteDotNet.Model
+namespace DotNetCoreEF.Model
 {
-    // [Table("persons")]
-    public class Person
+    [Table("persons")]
+    public class Person : BaseEntity
     {
-        public long Id { get; set;}
-        public string FirstName { get; set;}
-        public string LastName { get; set;}
-        public string Address { get; set;}
-        public string Gender { get; set;}
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Address { get; set; }
+        public string Gender { get; set; }
     }
 }

@@ -2,29 +2,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using ApiTesteDotNet.Model;
-using ApiTesteDotNet.Model.Context;
-using ApiTesteDotNet.Repository;
+using DotNetCoreEF.Model;
+using DotNetCoreEF.Model.Context;
+using DotNetCoreEF.Repository;
+using DotNetCoreEF.Repository.Generic;
 
-namespace ApiTesteDotNet.Business.Implementation
+namespace DotNetCoreEF.Business.Implementation
 {
     public class PersonBusinessImpl : IPersonBusiness
     {
-        private readonly IPersonRepository _repository;
+        private readonly IRepository<Person> _repository;
 
-        public PersonBusinessImpl(IPersonRepository repository)
+        public PersonBusinessImpl(IRepository<Person> repository)
         {
             _repository = repository;
         }
 
         public Person Create(Person person)
         {
-           return _repository.Create(person);
+            return _repository.Create(person);
         }
 
         public void Delete(long id)
         {
-           _repository.Delete(id);
+            _repository.Delete(id);
         }
 
         public List<Person> FindAll()
@@ -33,9 +34,9 @@ namespace ApiTesteDotNet.Business.Implementation
         }
 
         public Person FindById(long id)
-        { 
+        {
 
-             return _repository.FindById(id);
+            return _repository.FindById(id);
         }
 
         public Person Update(Person person)

@@ -1,75 +1,70 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ApiTesteDotNet.Business;
-using ApiTesteDotNet.Model;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using DotNetCoreEF.Model;
+using DotNetCoreEF.Business;
+namespace DotNetCoreEF.Controllers
+{
 
-namespace ApiTesteDotNet.Controllers
-{   
-
-    [Route("api/v{version:apiVersion}/[controller]")]
+    /* Mapeia as requisições de http://localhost:{porta}/api/persons/v1/
+    Por padrão o ASP.NET Core mapeia todas as classes que extendem Controller
+    pegando a primeira parte do nome da classe em lower case [Person]Controller
+    e expõe como endpoint REST
+    */
     [ApiVersion("1")]
-    [ApiController]
-    public class PersonsController : ControllerBase
+    [Route("api/v{version:apiVersion}/[controller]")]
+    public class PersonsController : Controller
     {
+        //Declaração do serviço usado
         private IPersonBusiness _personBusiness;
 
-        public PersonsController(IPersonBusiness personBusiness) => _personBusiness = personBusiness;
+        /* Injeção de uma instancia de IPersonBusiness ao criar
+        uma instancia de PersonController */
+        public PersonsController(IPersonBusiness personBusiness)
+        {
+            _personBusiness = personBusiness;
+        }
 
-        // GET api/person
+        //Mapeia as requisições GET para http://localhost:{porta}/api/persons/v1/
+        //Get sem parâmetros para o FindAll --> Busca Todos
         [HttpGet]
         public IActionResult Get()
         {
             return Ok(_personBusiness.FindAll());
         }
 
-        // GET api/person/5
+        //Mapeia as requisições GET para http://localhost:{porta}/api/persons/v1/{id}
+        //recebendo um ID como no Path da requisição
+        //Get com parâmetros para o FindById --> Busca Por ID
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
-        {   
-            var person  = _personBusiness.FindById(id);
-
-            if (person == null)
-            {
-                return NotFound();
-            }
-
+        public IActionResult Get(long id)
+        {
+            var person = _personBusiness.FindById(id);
+            if (person == null) return NotFound();
             return Ok(person);
         }
 
-        // POST api/person
+        //Mapeia as requisições POST para http://localhost:{porta}/api/persons/v1/
+        //O [FromBody] consome o Objeto JSON enviado no corpo da requisição
         [HttpPost]
-        public IActionResult Post([FromBody] Person person)
+        public IActionResult Post([FromBody]Person person)
         {
-            if (person == null)
-            {
-                return BadRequest();
-            }
-
+            if (person == null) return BadRequest();
             return new ObjectResult(_personBusiness.Create(person));
         }
 
-        // PUT api/person
+        //Mapeia as requisições PUT para http://localhost:{porta}/api/persons/v1/
+        //O [FromBody] consome o Objeto JSON enviado no corpo da requisição
         [HttpPut]
-        public IActionResult Put([FromBody] Person person)
+        public IActionResult Put([FromBody]Person person)
         {
-            if (person == null)
-            {
-                return BadRequest();
-            }
-            
-            var _person  = _personBusiness.FindById(person.Id);
-            
-            if (_person == null){
-                return NotFound();
-            }
-           
-            return new ObjectResult(_personBusiness.Update(person));
+            if (person == null) return BadRequest();
+            var updatedPerson = _personBusiness.Update(person);
+            if (updatedPerson == null) return BadRequest();
+            return new ObjectResult(updatedPerson);
         }
 
-        // DELETE api/person/5
+
+        //Mapeia as requisições DELETE para http://localhost:{porta}/api/persons/v1/{id}
+        //recebendo um ID como no Path da requisição
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
