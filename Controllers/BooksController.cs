@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using DotNetCoreEF.Model;
 using DotNetCoreEF.Business;
+using DotNetCoreEF.Data.VO;
+
 namespace DotNetCoreEF.Controllers
 {
     [ApiVersion("1")]
@@ -29,14 +31,14 @@ namespace DotNetCoreEF.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody]Book book)
+        public IActionResult Post([FromBody]BookVO book)
         {
             if (book == null) return BadRequest();
             return new ObjectResult(_bookBusiness.Create(book));
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody]Book book)
+        public IActionResult Put([FromBody]BookVO book)
         {
             if (book == null) return BadRequest();
             var updatedPerson = _bookBusiness.Update(book);

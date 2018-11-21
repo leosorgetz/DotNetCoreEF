@@ -1,5 +1,5 @@
-
 namespace DotNetCoreEF.Data.VO
+
 {
     public class PersonVO
     {

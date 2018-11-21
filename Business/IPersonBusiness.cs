@@ -6,9 +6,9 @@ namespace DotNetCoreEF.Business
 {
     public interface IPersonBusiness
     {
-        PersonVO Create(PersonVO person);
-        PersonVO FindById(long id);
         List<PersonVO> FindAll();
+        PersonVO FindById(long id);
+        PersonVO Create(PersonVO person);
         PersonVO Update(PersonVO person);
         void Delete(long id);
     }

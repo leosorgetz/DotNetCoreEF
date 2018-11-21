@@ -23,18 +23,6 @@ namespace DotNetCoreEF.Business.Implementation
             _converter = new PersonConverter();
         }
 
-        public PersonVO Create(PersonVO person)
-        {
-            var personEntity = _converter.Parse(person);
-            personEntity = _repository.Create(personEntity);
-            return _converter.Parse(personEntity);
-        }
-
-        public void Delete(long id)
-        {
-            _repository.Delete(id);
-        }
-
         public List<PersonVO> FindAll()
         {
             return _converter.ParseList(_repository.FindAll());
@@ -45,11 +33,23 @@ namespace DotNetCoreEF.Business.Implementation
             return _converter.Parse(_repository.FindById(id));
         }
 
+        public PersonVO Create(PersonVO person)
+        {
+            var personEntity = _converter.Parse(person);
+            personEntity = _repository.Create(personEntity);
+            return _converter.Parse(personEntity);
+        }
+
         public PersonVO Update(PersonVO person)
         {
             var personEntity = _converter.Parse(person);
             personEntity = _repository.Update(personEntity);
             return _converter.Parse(personEntity);
+        }
+
+        public void Delete(long id)
+        {
+            _repository.Delete(id);
         }
     }
 }

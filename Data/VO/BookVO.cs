@@ -1,7 +1,6 @@
-
 using System;
-
 namespace DotNetCoreEF.Data.VO
+
 {
     public class BookVO
     {
